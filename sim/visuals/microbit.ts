@@ -193,32 +193,35 @@ path.sim-board {
     const pinGND2mid = pinGNDmid + bigPinWidth / 2.0;
     const pinMids = [pin0mid, pin1mid, pin2mid, pin3mid].concat(pins4onMids).concat([pinGNDmid, pin3Vmid, pinGND2mid]);
     const pinNames = [
-        "P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10",
-        "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20",
-        "GND0", "GND", "+3v3", "GND1"];
+        "P3", "P0", "P4", "P5", "P6", "P7", "P1", "P8", "P9", "P10", "P11",
+        "P12", "P2", "P13", "P14", "P15", "P16", "P17", "+3v3", "P18", "P19", 
+        "P20", "GND0", "GND", "GND1"];
     const pinTitles = [
-        "P0, ANALOG IN",
-        "P1, ANALOG IN",
-        "P2, ANALOG IN",
         "P3, ANALOG IN, LED Col 1",
+        "P0, ANALOG IN",
         "P4, ANALOG IN, LED Col 2",
         "P5, BUTTON A",
         "P6, LED Col 9",
         "P7, LED Col 8",
+        "P1, ANALOG IN",
         "P8",
         "P9, LED Col 7",
         "P10, ANALOG IN, LED Col 3",
         "P11, BUTTON B",
         "P12, RESERVED ACCESSIBILITY",
+        "P2, ANALOG IN",
         "P13, SPI - SCK",
         "P14, SPI - MISO",
         "P15, SPI - MOSI",
         "P16, SPI - Chip Select",
         "P17, +3v3",
+        "+3v3", 
         "P18, +3v3",
         "P19, I2C - SCL",
         "P20, I2C - SDA",
-        "GND", "GND", "+3v3", "GND"
+        "GND", 
+        "GND", 
+        "GND"
     ];
     const MB_WIDTH = 500;
     const MB_HEIGHT = 408;
@@ -1044,22 +1047,40 @@ path.sim-board {
             this.headText = <SVGTextElement>svg.child(this.g, "text", { x: 160, y: 60, class: "sim-text" })
 
             // https://www.microbit.co.uk/device/pins
-            // P0, P1, P2
-            this.pins = [
-                "M16.5,341.2c0,0.4-0.1,0.9-0.1,1.3v60.7c4.1,1.7,8.6,2.7,12.9,2.7h34.4v-64.7c0,0,0-0.1,0-0.1c0-13-10.6-23.6-23.7-23.6C27.2,317.6,16.5,328.1,16.5,341.2z M21.2,341.6c0-10.7,8.7-19.3,19.3-19.3c10.7,0,19.3,8.7,19.3,19.3c0,10.7-8.6,19.3-19.3,19.3C29.9,360.9,21.2,352.2,21.2,341.6z",
-                "M139.1,317.3c-12.8,0-22.1,10.3-23.1,23.1V406h46.2v-65.6C162.2,327.7,151.9,317.3,139.1,317.3zM139.3,360.1c-10.7,0-19.3-8.6-19.3-19.3c0-10.7,8.6-19.3,19.3-19.3c10.7,0,19.3,8.7,19.3,19.3C158.6,351.5,150,360.1,139.3,360.1z",
-                "M249,317.3c-12.8,0-22.1,10.3-23.1,23.1V406h46.2v-65.6C272.1,327.7,261.8,317.3,249,317.3z M249.4,360.1c-10.7,0-19.3-8.6-19.3-19.3c0-10.7,8.6-19.3,19.3-19.3c10.7,0,19.3,8.7,19.3,19.3C268.7,351.5,260.1,360.1,249.4,360.1z"
-            ].map((p, pi) => svg.path(this.g, "sim-pin sim-pin-touch", p));
-
+            // P0, P1, P2, 3V
+            const bigPinsPaths = [
+                {
+                    path: "M16.5,341.2c0,0.4-0.1,0.9-0.1,1.3v60.7c4.1,1.7,8.6,2.7,12.9,2.7h34.4v-64.7c0,0,0-0.1,0-0.1c0-13-10.6-23.6-23.7-23.6C27.2,317.6,16.5,328.1,16.5,341.2z M21.2,341.6c0-10.7,8.7-19.3,19.3-19.3c10.7,0,19.3,8.7,19.3,19.3c0,10.7-8.6,19.3-19.3,19.3C29.9,360.9,21.2,352.2,21.2,341.6z",
+                    class: "sim-pin sim-pin-touch"
+                },
+                {
+                    path: "M139.1,317.3c-12.8,0-22.1,10.3-23.1,23.1V406h46.2v-65.6C162.2,327.7,151.9,317.3,139.1,317.3zM139.3,360.1c-10.7,0-19.3-8.6-19.3-19.3c0-10.7,8.6-19.3,19.3-19.3c10.7,0,19.3,8.7,19.3,19.3C158.6,351.5,150,360.1,139.3,360.1z",
+                    class: "sim-pin sim-pin-touch"
+                },
+                {
+                    path: "M249,317.3c-12.8,0-22.1,10.3-23.1,23.1V406h46.2v-65.6C272.1,327.7,261.8,317.3,249,317.3z M249.4,360.1c-10.7,0-19.3-8.6-19.3-19.3c0-10.7,8.6-19.3,19.3-19.3c10.7,0,19.3,8.7,19.3,19.3C268.7,351.5,260.1,360.1,249.4,360.1z",
+                    class: "sim-pin sim-pin-touch"
+                },
+                {
+                    path: "M359.9,317.3c-12.8,0-22.1,10.3-23.1,23.1V406H383v-65.6C383,327.7,372.7,317.3,359.9,317.3z M360,360.1c-10.7,0-19.3-8.6-19.3-19.3c0-10.7,8.6-19.3,19.3-19.3c10.7,0,19.3,8.7,19.3,19.3C379.3,351.5,370.7,360.1,360,360.1z",
+                    class: "sim-pin"
+                },
+            ]
+            this.pins = [];
             // P3
             this.pins.push(svg.path(this.g, "sim-pin", "M0,357.7v19.2c0,10.8,6.2,20.2,14.4,25.2v-44.4H0z"));
-
-            pins4onXs.forEach(x => {
-                this.pins.push(svg.child(this.g, "rect", { x: x, y: 356.7, width: 10, height: 50, class: "sim-pin" }));
-            })
-            this.pins.push(svg.path(this.g, "sim-pin", "M483.6,402c8.2-5,14.4-14.4,14.4-25.1v-19.2h-14.4V402z"));
-            this.pins.push(svg.path(this.g, "sim-pin", "M359.9,317.3c-12.8,0-22.1,10.3-23.1,23.1V406H383v-65.6C383,327.7,372.7,317.3,359.9,317.3z M360,360.1c-10.7,0-19.3-8.6-19.3-19.3c0-10.7,8.6-19.3,19.3-19.3c10.7,0,19.3,8.7,19.3,19.3C379.3,351.5,370.7,360.1,360,360.1z"));
+            this.pins.push(svg.path(this.g, bigPinsPaths[0].class, bigPinsPaths[0].path))
+            let j = 1;
+            for (let i = 0; i < pins4onXs.length; i++) {
+                this.pins.push(svg.child(this.g, "rect", { x: pins4onXs[i], y: 356.7, width: 10, height: 50, class: "sim-pin" }));
+                if (i === 3 || i === 8 || i === 13) {
+                    this.pins.push(svg.path(this.g, bigPinsPaths[j].class, bigPinsPaths[j].path))
+                    j++;
+                }
+            }
+            // GND
             this.pins.push(svg.path(this.g, "sim-pin", "M458,317.6c-13,0-23.6,10.6-23.6,23.6c0,0,0,0.1,0,0.1h0V406H469c4.3,0,8.4-1,12.6-2.7v-60.7c0-0.4,0-0.9,0-1.3C481.6,328.1,471,317.6,458,317.6z M457.8,360.9c-10.7,0-19.3-8.6-19.3-19.3c0-10.7,8.6-19.3,19.3-19.3c10.7,0,19.3,8.7,19.3,19.3C477.1,352.2,468.4,360.9,457.8,360.9z"));
+            this.pins.push(svg.path(this.g, "sim-pin", "M483.6,402c8.2-5,14.4-14.4,14.4-25.1v-19.2h-14.4V402z"));
 
             this.pins.forEach((p, i) => svg.hydrate(p, { title: pinTitles[i] }));
 
